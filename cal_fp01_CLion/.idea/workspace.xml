@@ -26,11 +26,15 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1XzIzdC03q860fLKQIFTygnutcf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.advertisement.text.has.clang-format" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../cal_fp02_CLion" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -90,6 +94,7 @@
       <updated>1582042759523</updated>
       <workItem from="1582042761203" duration="13414000" />
       <workItem from="1582293853540" duration="176000" />
+      <workItem from="1583252435084" duration="16000" />
     </task>
     <servers />
   </component>

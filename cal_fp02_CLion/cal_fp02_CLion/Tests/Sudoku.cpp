@@ -3,6 +3,7 @@
  *
  */
 
+#include <vector>
 #include "Sudoku.h"
 
 /** Inicia um Sudoku vazio.
@@ -13,9 +14,9 @@ Sudoku::Sudoku()
 }
 
 /**
- * Inicia um Sudoku com um conteúdo inicial.
- * Lança excepção IllegalArgumentException se os valores
- * estiverem fora da gama de 1 a 9 ou se existirem números repetidos
+ * Inicia um Sudoku com um conteï¿½do inicial.
+ * Lanï¿½a excepï¿½ï¿½o IllegalArgumentException se os valores
+ * estiverem fora da gama de 1 a 9 ou se existirem nï¿½meros repetidos
  * por linha, coluna ou bloc 3x3.
  *
  * @param nums matriz com os valores iniciais (0 significa por preencher)
@@ -61,7 +62,7 @@ void Sudoku::initialize()
 }
 
 /**
- * Obtem o conteúdo actual (só para leitura!).
+ * Obtem o conteï¿½do actual (sï¿½ para leitura!).
  */
 int** Sudoku::getNumbers()
 {
@@ -79,7 +80,7 @@ int** Sudoku::getNumbers()
 }
 
 /**
- * Verifica se o Sudoku já está completamente resolvido
+ * Verifica se o Sudoku jï¿½ estï¿½ completamente resolvido
  */
 bool Sudoku::isComplete()
 {
@@ -90,11 +91,40 @@ bool Sudoku::isComplete()
 
 /**
  * Resolve o Sudoku.
- * Retorna indicação de sucesso ou insucesso (sudoku impossível).
+ * Retorna indicaï¿½ï¿½o de sucesso ou insucesso (sudoku impossï¿½vel).
  */
-bool Sudoku::solve()
-{
-	return false;
+bool Sudoku::solve() {
+    if (isComplete()){
+        print();
+        return true;
+    }
+    for (int i = 0; i < 9; i++){
+        for (int j = 0; j < 9; j++) {
+            if (numbers[i][j] == 0) {
+                for (int n = 1; n < 10; n++) {
+                    if (!columnHasNumber[j][n] && !lineHasNumber[i][n] && !block3x3HasNumber[i/3][j/3][n]) {
+                        numbers[i][j] = n;
+                        countFilled++;
+                        columnHasNumber[j][n] = true;
+                        lineHasNumber[i][n] = true;
+                        block3x3HasNumber[i/3][j/3][n] = true;
+                        bool solved = solve();
+                        if (solved)
+                            return true;
+                        else {
+                            numbers[i][j] = 0;
+                            countFilled--;
+                            columnHasNumber[j][n] = false;
+                            lineHasNumber[i][n] = false;
+                            block3x3HasNumber[i/3][j/3][n] = false;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+    }
+    return isComplete();
 }
 
 
