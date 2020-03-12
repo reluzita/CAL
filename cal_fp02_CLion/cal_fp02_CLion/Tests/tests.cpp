@@ -207,12 +207,20 @@ TEST(CAL_FP02, testSudokuWithMultipleSolutions) {
              {3, 2, 0, 0, 0, 0, 0, 0, 6}};
 
     Sudoku s(in);
+    Sudoku s2(in);
+    //s2.solve2();
     EXPECT_EQ(s.solve() && s.isComplete(), true);
     int** out = s.getNumbers();
     for (int i=0; i<9; i++)
         for (int j=0; j<9; j++)
             if (in[i][j] != 0)
                 EXPECT_EQ(in[i][j], out[i][j]);
+}
+
+TEST(CAL_FP02, testGenerate) {
+    Sudoku s;
+    s.generateSudoku();
+    s.print();
 }
 
 
