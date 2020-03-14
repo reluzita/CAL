@@ -211,10 +211,41 @@ bool Sudoku::solve3() {
 
 bool Sudoku::generateSudoku() {
     this->initialize();
-    return this->generate();
+    int** ret = new int*[9];
+
+    for (int i = 0; i < 9; i++)
+    {
+        ret[i] = new int[9];
+        for (int j = 0; j < 9; j++)
+            ret[i][j] = 0;
+    }
+    if(generate(ret)) {
+        for (int a = 0; a < 9; a++) {
+            for (int b = 0; b < 9; b++) {
+                int n = ret[a][b];
+                numbers[a][b] = n;
+                if (n != 0) {
+                    lineHasNumber[a][n] = true;
+                    columnHasNumber[b][n] = true;
+                    block3x3HasNumber[a / 3][b / 3][n] = true;
+                    countFilled++;
+                    initial++;
+                }
+            }
+        }
+        return true;
+    } else
+        return false;
 }
 
-bool Sudoku::generate() {
+bool generate(int** array) {
+    int numbers[9][9];
+    for (int a = 0; a < 9; a++)
+    {
+        for (int b = 0; b < 9; b++)
+            numbers[a][b] = array[a][b];
+    }
+    Sudoku s(numbers);
     srand(time(NULL));
     bool found = false;
     int i, j, n;
@@ -222,70 +253,38 @@ bool Sudoku::generate() {
         i = rand() % 9;
         j = rand() % 9;
         n = rand() % 9 + 1;
-        if(numbers[i][j] == 0 && !columnHasNumber[j][n] && !lineHasNumber[i][n] && !block3x3HasNumber[i/3][j/3][n])
-            found = true;
+        found = s.canFill(i, j, n);
     }
-    numbers[i][j] = n;
+    s.insert(i, j, n);
+    s.solve3();
+    int sol = s.getSolutions();
+    if(sol == 1) {
+        array[i][j] = n;
+        return true;
+    } else if(sol == 0) {
+        return generate(array);
+    } else {
+        array[i][j] = n;
+        return generate(array);
+    }
+}
+
+bool Sudoku::canFill(int line, int col, int num) {
+    return (numbers[line][col] == 0) && !lineHasNumber[line][num] && !columnHasNumber[col][num] && !block3x3HasNumber[line/3][col/3][num];
+}
+
+void Sudoku::insert(int line, int col, int num) {
+    numbers[line][col] = num;
     countFilled++;
     initial++;
-    columnHasNumber[j][n] = true;
-    lineHasNumber[i][n] = true;
-    block3x3HasNumber[i / 3][j / 3][n] = true;
+    columnHasNumber[col][num] = true;
+    lineHasNumber[line][num] = true;
+    block3x3HasNumber[line/3][col/3][num] = true;
 
-    int numTemp[9][9];
-    for (int l = 0; l < 9; l++)
-    {
-        for (int c = 0; c < 9; c++)
-        {
-            int m = numbers[l][c];
-            numTemp[l][c] = m;
-        }
-    }
+}
 
-    solutions = 0;
-    solve3();
-
-    countFilled = 0;
-    initial = 0;
-    for (int l = 0; l < 9; l++)
-    {
-        for(int c = 1; c < 10; c++) {
-            lineHasNumber[l][c] = false;
-            columnHasNumber[l][c] = false;
-            for(int b = 0; b < 3; b++) {
-                block3x3HasNumber[l / 3][b][c] = false;
-            }
-        }
-
-        for (int c = 0; c < 9; c++)
-        {
-            int m = numTemp[l][c];
-            numbers[l][c] = m;
-            if (m != 0) {
-                countFilled++;
-                initial++;
-                lineHasNumber[l][m] = true;
-                columnHasNumber[c][m] = true;
-                block3x3HasNumber[l / 3][c / 3][m] = true;
-            }
-        }
-
-    }
-
-    if(solutions == 0) {
-        numbers[i][j] = 0;
-        countFilled--;
-        columnHasNumber[j][n] = false;
-        lineHasNumber[i][n] = false;
-        block3x3HasNumber[i/3][j/3][n] = false;
-        generate();
-    } else if( solutions == 1 )
-        return true;
-    else {
-        print();
-        cout << endl;
-        generate();
-    }
+int Sudoku::getSolutions() {
+    return solutions;
 }
 
 /**

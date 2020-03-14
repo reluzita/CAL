@@ -36,7 +36,6 @@ class Sudoku
 	bool lineHasNumber[9][10];
 	bool block3x3HasNumber[3][3][10];
 
-	bool generate();
 	void initialize();
 
 public:
@@ -74,11 +73,16 @@ public:
 	bool solve2();
 	bool solve3();
     bool generateSudoku();
+    bool canFill(int line, int col, int num);
+    void insert(int line, int col, int num);
+    int getSolutions();
 
 	/**
 	 * Imprime o Sudoku.
 	 */
 	void print();
 };
+
+bool generate(int** array);
 
 #endif /* SUDOKU_H_ */
