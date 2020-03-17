@@ -206,16 +206,16 @@ TEST(CAL_FP03, testNP_BF) {
     testNearestPoints(nearestPoints_BF, "Brute force");
 }
 
-/*
+
 TEST(CAL_FP03, testNP_BF_SortedX) {
     testNearestPoints(nearestPoints_BF_SortByX, "Brute force, sorted by x");
 }
-*/
+
 
 TEST(CAL_FP03, testNP_DC) {
     testNearestPoints(nearestPoints_DC, "Divide and conquer");
 }
-/*
+
 
 TEST(CAL_FP03, testNP_DC_2Threads) {
     setNumThreads(2);
@@ -233,6 +233,6 @@ TEST(CAL_FP03, testNP_DC_8Threads) {
     setNumThreads(8);
     testNearestPoints(nearestPoints_DC_MT, "Divide and conquer with 8 threads");
 }
-*/
+
 
 

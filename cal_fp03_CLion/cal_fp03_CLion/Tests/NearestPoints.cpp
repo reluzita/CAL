@@ -63,10 +63,8 @@ Result nearestPoints_BF(vector<Point> &vp) {
  * Improved brute force algorithm, that first sorts points by X axis.
  */
 Result nearestPoints_BF_SortByX(vector<Point> &vp) {
-	Result res;
 	sortByX(vp, 0, vp.size()-1);
-	// TODO
-	return res;
+	return nearestPoints_BF(vp);
 }
 
 
@@ -118,9 +116,18 @@ static Result np_DC(vector<Point> &vp, int left, int right, int numThreads) {
 	// possibly in parallel (in case numThreads > 1)
 	int mid = left + ((right - left) / 2);
 
-	Result minLeft = np_DC(vp, left, mid, numThreads);
-	Result minRight = np_DC(vp, mid + 1, right, numThreads);
-
+	Result minLeft, minRight;
+	if(numThreads > 1) {
+        std::thread t([&vp, &minLeft, left, mid, numThreads]{
+            vector<Point> v2(vp);
+            minLeft = np_DC(v2, left, mid, numThreads/2);
+        });
+        minRight = np_DC(vp, mid + 1, right, numThreads/2);
+        t.join();
+	} else {
+        minLeft = np_DC(vp, left, mid, numThreads);
+        minRight = np_DC(vp, mid + 1, right, numThreads);
+    }
 
 	// Select the best solution from left and right
 	if(minLeft.dmin < minRight.dmin)
