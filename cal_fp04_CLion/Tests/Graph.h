@@ -354,11 +354,10 @@ bool Graph<T>::isDAG() const {
 	// TODO (9 lines, mostly reused)
 	// HINT: use the auxiliary field "processing" to mark the vertices in the stack.
     for (Vertex<T> *v: vertexSet) {
-        v->visited = false;
         v->processing = false;
     }
     for (Vertex<T> *v: vertexSet) {
-        if (!v->visited) {
+        if (!v->processing) {
             if (!dfsIsDAG(v))
                 return false;
         }
@@ -373,16 +372,14 @@ bool Graph<T>::isDAG() const {
 template <class T>
 bool Graph<T>::dfsIsDAG(Vertex<T> *v) const {
 	// TODO (12 lines, mostly reused)
-    v->visited = true;
     v->processing = true;
     for(Edge<T> edge: v->adj) {
         if ((edge.dest)->processing)
             return false;
-        else if (!((edge.dest)->visited)) {
-            if (!dfsIsDAG(v))
-                return false;
-        }
+        else if (!dfsIsDAG(edge.dest))
+            return false;
     }
+    v->processing = false;
     return true;
 }
 
