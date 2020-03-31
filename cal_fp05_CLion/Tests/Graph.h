@@ -101,6 +101,7 @@ Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w) {}
 template <class T>
 class Graph {
 	vector<Vertex<T> *> vertexSet;    // vertex set
+	vector<vector<int>> D;
 
 public:
 	Vertex<T> *findVertex(const T &in) const;
@@ -225,7 +226,23 @@ void Graph<T>::dijkstraShortestPath(const T &origin) {
 
 template<class T>
 void Graph<T>::bellmanFordShortestPath(const T &orig) {
-	// TODO
+    for(auto v: vertexSet) {
+        v->dist = INT_MAX;
+        v->path = NULL;
+    }
+    Vertex<T> * vertex = findVertex(orig);
+    vertex->dist = 0;
+
+    for (int i = 1; i < vertexSet.size() - 1; i++) {
+        for (auto v : vertexSet) {
+            for(Edge<T> edge: v->adj) {
+                if(edge.dest->dist > v->dist + edge.weight) {
+                    edge.dest->dist = v->dist + edge.weight;
+                    edge.dest->path = v;
+                }
+            }
+        }
+    }
 }
 
 
@@ -252,14 +269,33 @@ vector<T> Graph<T>::getPathTo(const T &dest) const{
 
 template<class T>
 void Graph<T>::floydWarshallShortestPath() {
-	// TODO
+    for(int i = 0; i < vertexSet.size(); i++) {
+        for (int j = 0; j < vertexSet.size(); j++)
+            D[i][j] = INT_MAX;
+    }
+	for(int i = 0; i < vertexSet.size(); i++) {
+	    for(Edge<T> edge: vertexSet[i]->adj) {
+	        auto it = find(vertexSet.begin(), vertexSet.end(), edge.dest);
+	        int j = distance(vertexSet.begin(), it);
+	        D[i][j] = edge.weight;
+	    }
+	}
+
+	for(int k = 0; k < vertexSet.size(); k++) {
+        for(int i = 0; i < vertexSet.size(); i++) {
+            for (int j = 0; j < vertexSet.size(); j++) {
+                if(D[i][k] + D[k][j] < D[i][j])
+                    D[i][j] = D[i][k] + D[k][j];
+            }
+        }
+	}
 }
 
 template<class T>
 vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
-	vector<T> res;
-	// TODO
-	return res;
+    vector<T> res;
+
+    return res;
 }
 
 
