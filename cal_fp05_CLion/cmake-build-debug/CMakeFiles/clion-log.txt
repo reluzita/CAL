@@ -13,7 +13,6 @@
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Found PythonInterp: C:/Python27/python.exe (found version "2.7.15") 
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/ineso/OneDrive/Documentos/Ines-Universidade/2 ano/2 semestre/CAL/cal_fp05_CLion/cmake-build-debug

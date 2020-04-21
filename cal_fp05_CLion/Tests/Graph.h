@@ -243,6 +243,15 @@ void Graph<T>::bellmanFordShortestPath(const T &orig) {
             }
         }
     }
+    for (auto v : vertexSet) {
+        for(Edge<T> edge: v->adj) {
+            if(edge.dest->dist > v->dist + edge.weight) {
+                edge.dest->dist = v->dist + edge.weight;
+                edge.dest->path = v;
+                cout << "Negative cycle!" << endl;
+            }
+        }
+    }
 }
 
 

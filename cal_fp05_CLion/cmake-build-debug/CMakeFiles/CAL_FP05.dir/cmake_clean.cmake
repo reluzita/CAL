@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/CAL_FP05.dir/main.cpp.obj"
-  "CMakeFiles/CAL_FP05.dir/Tests/tests.cpp.obj"
-  "CAL_FP05.pdb"
   "CAL_FP05.exe"
   "CAL_FP05.exe.manifest"
+  "CAL_FP05.pdb"
+  "CMakeFiles/CAL_FP05.dir/Tests/tests.cpp.obj"
+  "CMakeFiles/CAL_FP05.dir/main.cpp.obj"
   "libCAL_FP05.dll.a"
 )
 
